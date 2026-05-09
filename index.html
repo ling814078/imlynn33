@@ -369,6 +369,38 @@ function renderResult(diag, payload) {
     </div>
   `;
 
+  // --- 關鍵補丁：重新加回對談連結區塊 ---
+  const actionContainer = document.querySelector('#resultScreen');
+  
+  // 檢查是否已經有對談區塊，避免重複添加
+  if (!document.getElementById("talkPlanBox")) {
+    const talkBox = document.createElement('div');
+    talkBox.id = "talkPlanBox";
+    talkBox.className = "action-box";
+    talkBox.innerHTML = `
+      <div style="font-size: 14px; font-weight: 800;">🗓 第二步：預約卡點釐清對談</div>
+      <div style="font-size: 12px; color: var(--muted);">30 分鐘，把妳的卡點翻譯成可行動的下一步。</div>
+      <a class="action-button" style="background: var(--purple-light); color: var(--purple-dark);" href="https://ling814078.github.io/linlin/" target="_blank">了解對談計畫 ›</a>
+    `;
+    actionContainer.appendChild(talkBox);
+  }
+
+  document.getElementById("copyBtn").onclick = () => {
+    navigator.clipboard.writeText(copyText).then(() => {
+      const b = document.getElementById("copyBtn");
+      b.textContent = "✅ 已複製！請回 LINE 貼上";
+      b.style.background = "#D1FFD1";
+      b.style.border = "1.5px solid #28a745";
+    });
+  };
+}</button>
+    
+    <div style="border-top: 1px solid var(--purple-border); padding-top: 1rem; margin-top: 1rem;">
+      <div style="font-size: 11px; font-weight: 700; color: var(--purple-dark);">Lynn 建議妳先做</div>
+      <div style="font-size: 15px; font-weight: 700; color: var(--purple-deep);">${diag.next}</div>
+    </div>
+  `;
+
   document.getElementById("copyBtn").onclick = () => {
     navigator.clipboard.writeText(copyText).then(() => {
       const b = document.getElementById("copyBtn");
