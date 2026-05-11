@@ -28,6 +28,7 @@
   --soft: #888888;
   --line: #EEEEEE;
   --white: #FFFFFF;
+
   --danger-soft: #FFF4F1;
   --danger-text: #8A3B2E;
   --green-soft: #F0FFF4;
@@ -469,6 +470,13 @@ body {
   margin-top: 0.75rem;
 }
 
+.email-note {
+  font-size: 12px;
+  color: var(--soft);
+  line-height: 1.6;
+  margin: -2px 0 12px;
+}
+
 .error-text {
   display: none;
   font-size: 12px;
@@ -549,15 +557,23 @@ body {
   <section class="screen" id="questionScreen"></section>
 
   <section class="screen" id="formScreen">
-    <h2 class="cover-title" style="font-size: 21px;">最後一步：留下對接資料</h2>
+    <h2 class="cover-title" style="font-size: 21px;">最後一步：產出妳的診斷結果</h2>
+
     <p class="cover-subtitle" style="font-size: 14px; margin-bottom: 1.5rem;">
-      請填寫稱呼與 LINE 名稱，系統才能正確產出妳的專屬診斷。
+      請留下稱呼，系統會產出妳的專屬診斷。Email 可選填，若妳想收到後續整理資源，可以一起留下。
     </p>
 
-    <div class="error-text" id="formError">請先填寫名字與 LINE 名稱。</div>
+    <div class="error-text" id="formError">請先填寫名字 / 稱呼。</div>
+    <div class="error-text" id="emailError">Email 格式看起來不正確，請確認後再送出，或留空即可。</div>
 
-    <input class="input" id="userName" type="text" placeholder="妳的名字 / 稱呼" />
-    <input class="input" id="lineName" type="text" placeholder="LINE 名稱" />
+    <input class="input" id="userName" type="text" placeholder="妳的名字 / 稱呼（必填）" />
+
+    <input class="input" id="userEmail" type="email" placeholder="Email 選填：想收到後續資源可留下" />
+
+    <p class="email-note">
+      Email 不是必填。若妳留下，我會用來寄送診斷延伸整理、活動或內容資源。
+    </p>
+
     <textarea class="textarea" id="mainChallenge" placeholder="選填：目前創業 / 轉型路上，最想解決的一個卡點？"></textarea>
 
     <div class="nav">
@@ -733,10 +749,11 @@ const progress = {
 };
 
 const userNameInput = document.getElementById("userName");
-const lineNameInput = document.getElementById("lineName");
+const userEmailInput = document.getElementById("userEmail");
 const challengeInput = document.getElementById("mainChallenge");
 const submitButton = document.getElementById("submitButton");
 const formError = document.getElementById("formError");
+const emailError = document.getElementById("emailError");
 
 /* -----------------------------
    工具函式
@@ -748,6 +765,13 @@ function escapeHTML(str) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function isValidEmail(email) {
+  if (!email) return true;
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailPattern.test(email);
 }
 
 function showScreen(key) {
@@ -862,17 +886,26 @@ function goBack() {
    表單控制
 ----------------------------- */
 function validateForm() {
-  const isValid = userNameInput.value.trim() && lineNameInput.value.trim();
-  submitButton.disabled = !isValid || isSubmitting;
+  const name = userNameInput.value.trim();
+  const email = userEmailInput.value.trim();
 
-  if (isValid) {
+  const hasName = Boolean(name);
+  const emailOK = isValidEmail(email);
+
+  submitButton.disabled = !hasName || !emailOK || isSubmitting;
+
+  if (hasName) {
     formError.classList.remove("show");
   }
 
-  return Boolean(isValid);
+  if (emailOK) {
+    emailError.classList.remove("show");
+  }
+
+  return hasName && emailOK;
 }
 
-[userNameInput, lineNameInput].forEach(input => {
+[userNameInput, userEmailInput].forEach(input => {
   input.addEventListener("input", validateForm);
 });
 
@@ -1011,8 +1044,16 @@ submitButton.addEventListener("click", submitData);
 async function submitData() {
   if (isSubmitting) return;
 
-  if (!validateForm()) {
+  const name = userNameInput.value.trim();
+  const email = userEmailInput.value.trim();
+
+  if (!name) {
     formError.classList.add("show");
+    return;
+  }
+
+  if (!isValidEmail(email)) {
+    emailError.classList.add("show");
     return;
   }
 
@@ -1023,8 +1064,8 @@ async function submitData() {
   const diagnosis = getDiagnosis();
 
   const payload = {
-    name: userNameInput.value.trim(),
-    line: lineNameInput.value.trim(),
+    name: name,
+    email: email,
     challenge: challengeInput.value.trim(),
     type: diagnosis.title,
     stage: diagnosis.stage,
@@ -1056,7 +1097,7 @@ function renderFinalResult(diagnosis, payload) {
 `【Lynn 天賦商業化診斷結果】
 
 姓名：${payload.name}
-LINE 名稱：${payload.line}
+Email：${payload.email || "未填寫"}
 
 診斷類型：${diagnosis.title}
 
