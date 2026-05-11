@@ -7,99 +7,504 @@
 
 <style>
 /* --- 核心視覺系統 --- */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --purple: #7F77DD; --purple-dark: #534AB7; --purple-deep: #3C3489;
-  --purple-light: #EEEDFE; --purple-mid: #CECBF6; --purple-border: #AFA9EC;
-  --bg: #FAF9F7; --text: #1A1A1A; --muted: #666; --soft: #888;
-  --line: #EEEEEE; --white: #FFFFFF;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+
+:root {
+  --purple: #7F77DD;
+  --purple-dark: #534AB7;
+  --purple-deep: #3C3489;
+  --purple-light: #EEEDFE;
+  --purple-soft: #F7F5FF;
+  --purple-mid: #CECBF6;
+  --purple-border: #AFA9EC;
+
+  --bg: #FAF9F7;
+  --text: #1A1A1A;
+  --muted: #666666;
+  --soft: #888888;
+  --line: #EEEEEE;
+  --white: #FFFFFF;
+  --danger-soft: #FFF4F1;
+  --danger-text: #8A3B2E;
+  --green-soft: #F0FFF4;
+  --green-text: #246B3A;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
-  background: var(--bg); color: var(--text); min-height: 100vh;
-  display: flex; align-items: flex-start; justify-content: center; padding: 2rem 1rem;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
 }
+
 .card {
-  background: var(--white); border-radius: 22px; padding: 2.5rem 2rem;
-  max-width: 540px; width: 100%; box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
+  background: var(--white);
+  border-radius: 22px;
+  padding: 2.5rem 2rem;
+  max-width: 560px;
+  width: 100%;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
 }
-.logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 2rem; }
+
+/* --- 品牌區 --- */
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
 .avatar {
-  width: 42px; height: 42px; border-radius: 50%; background: var(--purple-light);
-  display: flex; align-items: center; justify-content: center; font-size: 13px;
-  font-weight: 700; color: var(--purple-dark); flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--purple-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple-dark);
+  flex-shrink: 0;
 }
-.brand-name { font-size: 13px; font-weight: 600; }
-.brand-subtitle { font-size: 11px; color: var(--soft); margin-top: 2px; }
 
-/* 進度條 */
-.progress-wrap { display: none; margin-bottom: 2rem; }
-.progress-wrap.show { display: block; }
-.step-text { font-size: 12px; color: var(--soft); margin-bottom: 0.6rem; }
-.progress { height: 4px; background: #eee; border-radius: 99px; overflow: hidden; }
-.progress-fill { height: 100%; width: 0%; background: var(--purple); transition: width 0.35s ease; }
+.brand-name {
+  font-size: 13px;
+  font-weight: 700;
+}
 
-/* 畫面轉換 */
-.screen { display: none; animation: fadeIn 0.22s ease; }
-.screen.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.brand-subtitle {
+  font-size: 11px;
+  color: var(--soft);
+  margin-top: 2px;
+}
 
-.cover-title { font-size: 25px; font-weight: 700; line-height: 1.4; margin-bottom: 0.75rem; }
-.cover-subtitle { font-size: 15px; color: #555; line-height: 1.75; margin-bottom: 0.6rem; }
-.cover-note { font-size: 13px; color: var(--soft); line-height: 1.75; margin-bottom: 2rem; }
-.question-title { font-size: 18px; font-weight: 600; line-height: 1.5; margin-bottom: 1.25rem; }
+/* --- 進度條 --- */
+.progress-wrap {
+  display: none;
+  margin-bottom: 2rem;
+}
 
-/* 選項設計 */
-.options { display: flex; flex-direction: column; gap: 9px; margin-bottom: 1.75rem; }
+.progress-wrap.show {
+  display: block;
+}
+
+.step-text {
+  font-size: 12px;
+  color: var(--soft);
+  margin-bottom: 0.6rem;
+}
+
+.progress {
+  height: 4px;
+  background: #EEEEEE;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--purple);
+  transition: width 0.35s ease;
+}
+
+/* --- 畫面切換 --- */
+.screen {
+  display: none;
+  animation: fadeIn 0.22s ease;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cover-title {
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.cover-subtitle {
+  font-size: 15px;
+  color: #555555;
+  line-height: 1.8;
+  margin-bottom: 0.75rem;
+}
+
+.cover-note {
+  font-size: 13px;
+  color: var(--soft);
+  line-height: 1.75;
+  margin-bottom: 2rem;
+}
+
+.highlight-box {
+  background: var(--purple-soft);
+  border: 1px solid var(--purple-mid);
+  border-radius: 16px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.highlight-box-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--purple-deep);
+  margin-bottom: 0.35rem;
+}
+
+.highlight-box-text {
+  font-size: 13px;
+  color: var(--purple-dark);
+  line-height: 1.65;
+}
+
+.question-title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+
+/* --- 選項設計 --- */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 1.75rem;
+}
+
 .option {
-  display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px;
-  border: 1.5px solid var(--line); border-radius: 15px; cursor: pointer;
-  background: var(--white); transition: all 0.15s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: 15px;
+  cursor: pointer;
+  background: var(--white);
+  transition: all 0.15s ease;
 }
-.option:hover { border-color: var(--purple-border); background: var(--purple-light); }
-.option input { position: absolute; opacity: 0; pointer-events: none; }
+
+.option:hover {
+  border-color: var(--purple-border);
+  background: var(--purple-light);
+}
+
+.option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .option-dot {
-  width: 18px; height: 18px; border-radius: 50%; border: 2px solid #ccc;
-  flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #CCCCCC;
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.option input:checked + .option-dot { border-color: var(--purple); background: var(--purple); }
-.option input:checked + .option-dot::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--white); }
-.option:has(input:checked) { border-color: var(--purple); background: var(--purple-light); }
-.option-label { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
-.option-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
 
-/* 表單 */
-.input, .textarea { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 13px; font-size: 15px; margin-bottom: 10px; outline: none; font-family: inherit; }
-.textarea { min-height: 92px; resize: vertical; }
+.option input:checked + .option-dot {
+  border-color: var(--purple);
+  background: var(--purple);
+}
 
-/* 按鈕 */
-.nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.back-button { font-size: 13px; color: #999; cursor: pointer; background: none; border: none; font-family: inherit; }
+.option input:checked + .option-dot::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--white);
+}
+
+.option:has(input:checked) {
+  border-color: var(--purple);
+  background: var(--purple-light);
+}
+
+.option-content {
+  display: block;
+}
+
+.option-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.option-desc {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* --- 表單 --- */
+.input,
+.textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 13px;
+  font-size: 15px;
+  margin-bottom: 10px;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--purple-border);
+  background: var(--purple-soft);
+}
+
+.textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+/* --- 按鈕 --- */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.back-button {
+  font-size: 13px;
+  color: #999999;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  padding: 8px 0;
+}
+
+.back-button:hover {
+  color: var(--purple-dark);
+}
+
 .next-button {
-  padding: 11px 26px; background: var(--purple); color: var(--white);
-  border: none; border-radius: 999px; font-size: 15px; font-weight: 600;
-  cursor: pointer; transition: background 0.15s ease; display: inline-flex; align-items: center;
+  padding: 11px 26px;
+  background: var(--purple);
+  color: var(--white);
+  border: none;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
 }
-.next-button:disabled { opacity: 0.35; cursor: not-allowed; }
 
-/* 結果呈現 */
-.result-box { background: var(--purple-light); border-radius: 17px; padding: 1.5rem; margin-bottom: 1.25rem; }
-.type-title { font-size: 20px; font-weight: 800; color: var(--purple-deep); margin-bottom: 0.6rem; }
+.next-button:hover {
+  background: var(--purple-dark);
+}
+
+.next-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* --- 結果呈現 --- */
+.result-box {
+  background: var(--purple-light);
+  border-radius: 18px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 800;
+  background: var(--purple-mid);
+  color: var(--purple-deep);
+  padding: 4px 12px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.type-title {
+  font-size: 21px;
+  font-weight: 900;
+  color: var(--purple-deep);
+  margin-bottom: 0.75rem;
+}
+
+.result-section {
+  border-top: 1px solid var(--purple-border);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.result-section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.result-label {
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--purple-deep);
+  margin-bottom: 0.35rem;
+}
+
+.result-text {
+  font-size: 14px;
+  color: var(--purple-dark);
+  line-height: 1.75;
+}
+
+.risk-box {
+  background: var(--danger-soft);
+  border: 1px solid #FFD7CE;
+  color: var(--danger-text);
+  border-radius: 14px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
 .copy-btn {
-  background: #E8E5FF; color: var(--purple-deep); border: 1.5px dashed var(--purple);
-  padding: 12px; border-radius: 12px; width: 100%; cursor: pointer;
-  font-weight: 700; margin: 15px 0; transition: all 0.2s; font-family: inherit;
+  background: #E8E5FF;
+  color: var(--purple-deep);
+  border: 1.5px dashed var(--purple);
+  padding: 12px;
+  border-radius: 12px;
+  width: 100%;
+  cursor: pointer;
+  font-weight: 800;
+  margin: 15px 0;
+  transition: all 0.2s;
+  font-family: inherit;
 }
-.action-box { border: 1.5px solid var(--line); border-radius: 15px; padding: 1rem 1.25rem; margin-bottom: 9px; }
-.action-button {
-  display: inline-flex; align-items: center; justify-content: center; gap: 5px;
-  padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 700;
-  text-decoration: none; font-family: inherit; margin-top: 10px;
-}
-.primary-action { background: var(--purple); color: var(--white); }
-.secondary-action { background: #FFFFFF; color: var(--purple-dark); border: 1.5px solid var(--purple-border); }
 
-@media (max-width: 480px) { .card { padding: 1.75rem 1.25rem; } }
+.copy-btn:hover {
+  background: #DED9FF;
+}
+
+.action-box {
+  border: 1.5px solid var(--line);
+  border-radius: 15px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 9px;
+}
+
+.action-title {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.action-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.6;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  font-family: inherit;
+  margin-top: 10px;
+}
+
+.primary-action {
+  background: var(--purple);
+  color: var(--white);
+}
+
+.secondary-action {
+  background: #FFFFFF;
+  color: var(--purple-dark);
+  border: 1.5px solid var(--purple-border);
+}
+
+.small-note {
+  font-size: 12px;
+  color: var(--soft);
+  line-height: 1.6;
+  margin-top: 0.75rem;
+}
+
+.error-text {
+  display: none;
+  font-size: 12px;
+  color: var(--danger-text);
+  background: var(--danger-soft);
+  border-radius: 10px;
+  padding: 0.65rem 0.8rem;
+  margin-bottom: 0.9rem;
+}
+
+.error-text.show {
+  display: block;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1.75rem 1.25rem;
+    border-radius: 20px;
+  }
+
+  .cover-title {
+    font-size: 23px;
+  }
+
+  .nav {
+    gap: 10px;
+  }
+
+  .next-button {
+    padding: 11px 20px;
+  }
+}
 </style>
 </head>
 
@@ -115,13 +520,29 @@ body {
 
   <section class="progress-wrap" id="progressWrap">
     <div class="step-text" id="stepText">第 1 題，共 5 題</div>
-    <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
   </section>
 
   <section class="screen active" id="coverScreen">
-    <h1 class="cover-title">找出妳的變現卡點<br>與專屬商業標籤</h1>
-    <p class="cover-subtitle">透過 5 個情境，診斷妳目前的「商業化成色」，並找出讓妳卡住的隱形路障。</p>
-    <p class="cover-note">診斷後 Lynn 將協助妳將天賦轉譯成具體的變現系統。</p>
+    <h1 class="cover-title">找出妳現在<br>最卡住的變現階段</h1>
+
+    <p class="cover-subtitle">
+      妳可能不是沒有能力，而是還沒把能力整理成一句別人聽得懂、願意付費的價值。
+    </p>
+
+    <div class="highlight-box">
+      <div class="highlight-box-title">這份診斷會幫妳看見：</div>
+      <div class="highlight-box-text">
+        妳目前是卡在定位、表達、產品化、內容轉換，還是 AI 系統化。
+      </div>
+    </div>
+
+    <p class="cover-note">
+      適合已經有想法、能力或經驗，但不知道如何整理成可被理解、可被收費服務的妳。
+    </p>
+
     <button class="next-button" id="startButton">開始測驗 ›</button>
   </section>
 
@@ -129,10 +550,16 @@ body {
 
   <section class="screen" id="formScreen">
     <h2 class="cover-title" style="font-size: 21px;">最後一步：留下對接資料</h2>
-    <p class="cover-subtitle" style="font-size: 14px; margin-bottom: 1.5rem;">請填寫稱呼與 LINE 名稱，系統才能正確產出妳的專屬診斷。</p>
+    <p class="cover-subtitle" style="font-size: 14px; margin-bottom: 1.5rem;">
+      請填寫稱呼與 LINE 名稱，系統才能正確產出妳的專屬診斷。
+    </p>
+
+    <div class="error-text" id="formError">請先填寫名字與 LINE 名稱。</div>
+
     <input class="input" id="userName" type="text" placeholder="妳的名字 / 稱呼" />
     <input class="input" id="lineName" type="text" placeholder="LINE 名稱" />
-    <textarea class="textarea" id="mainChallenge" placeholder="選填：目前創業/轉型路上，最想解決的一個卡點？"></textarea>
+    <textarea class="textarea" id="mainChallenge" placeholder="選填：目前創業 / 轉型路上，最想解決的一個卡點？"></textarea>
+
     <div class="nav">
       <button class="back-button" id="formBackButton">‹ 返回題項</button>
       <button class="next-button" id="submitButton" disabled>產出診斷結果 ›</button>
@@ -140,186 +567,609 @@ body {
   </section>
 
   <section class="screen" id="resultScreen">
-    <h2 class="cover-title" style="font-size: 21px;">診斷書已產出！</h2>
+    <h2 class="cover-title" style="font-size: 21px;">診斷書已產出</h2>
+
     <div class="result-box" id="resultBox"></div>
-    
+
     <div class="action-box">
-      <div style="font-size: 14px; font-weight: 800;">第一步：回傳診斷給 Lynn</div>
-      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">請複製上方結果，並回到 LINE 貼上。這能幫助我更快了解妳的情況。</div>
-      <a class="action-button primary-action" href="https://lin.ee/pWa9RGJ" target="_blank">回到 LINE 對話框 ›</a>
+      <div class="action-title">第一步：回傳診斷給 Lynn</div>
+      <div class="action-desc">
+        請先複製上方結果，再回到 LINE 貼上。這能幫助我更快判斷妳目前最需要整理哪一塊。
+      </div>
+      <a class="action-button primary-action" href="https://lin.ee/pWa9RGJ" target="_blank" rel="noopener">
+        回到 LINE 對話框 ›
+      </a>
     </div>
 
     <div class="action-box" style="background: #FAF9FF; border-color: var(--purple-mid);">
-      <div style="font-size: 14px; font-weight: 800; color: var(--purple-deep);">第二步：預約「轉型路徑」釐清對談</div>
-      <div style="font-size: 12px; color: var(--purple-dark); margin-top: 4px;">診斷只是開始。讓我們用 30 分鐘對談，幫妳的天賦設計一套變現主線。</div>
-      <a class="action-button secondary-action" href="https://ling814078.github.io/linlin/" target="_blank">了解預約計畫 ›</a>
+      <div class="action-title" style="color: var(--purple-deep);">第二步：預約「轉型路徑」釐清對談</div>
+      <div class="action-desc" style="color: var(--purple-dark);">
+        診斷只是開始。若妳想把能力整理成清楚的定位、內容主線與變現路徑，可以進一步看預約說明。
+      </div>
+      <a class="action-button secondary-action" href="https://ling814078.github.io/linlin/" target="_blank" rel="noopener">
+        了解預約計畫 ›
+      </a>
     </div>
   </section>
 </main>
 
 <script>
-// --- 核心變數 ---
+/* -----------------------------
+   基本設定
+----------------------------- */
 const WEBHOOK_URL = "https://hook.us2.make.com/adev6ygml8kkxyul2fs5msx2cxrkyofw";
+
 const questions = [
-  { id: "q1", resultLabel: "變現現況", title: "關於「把熱情變成收入」，目前真實狀態？", options: [{ value: "純小白", label: "🟢 純小白", desc: "有很多興趣，但不知道哪個能賺錢。" }, { value: "卡關中", label: "🟡 卡關中", desc: "已在分享或接案，但收入極不穩定。" }, { value: "缺系統", label: "🟠 缺系統", desc: "有產品但忙於瑣事，缺乏行銷與自動化。" }] },
-  { id: "q2", resultLabel: "定位狀態", title: "當別人問「妳在做什麼？」妳的反應是？", options: [{ value: "標籤模糊", label: "🟢 腦袋空白", desc: "說出一個很廣的詞，別人聽完沒記憶點。" }, { value: "技能太散", label: "🟡 技能太散", desc: "會的東西很多，但找不到主線串起來。" }, { value: "缺差異化", label: "🟠 缺差異化", desc: "能說出服務，但覺得隨時會被市場取代。" }] },
-  { id: "q3", resultLabel: "付費心魔", title: "如果要妳公開報價收費，妳最大心魔是？", options: [{ value: "冒牌者症候群", label: "🟢 冒牌者症候群", desc: "覺得自己還不夠專業，不敢收合理價格。" }, { value: "產品難產症", label: "🟡 產品難產症", desc: "不知道怎麼把能力包裝成具體「方案」。" }, { value: "流量焦慮症", label: "🟠 流量焦慮症", desc: "怕發文沒人看、怕準備好了卻無人買單。" }] },
-  { id: "q4", resultLabel: "內容痛點", title: "面對社群產出，妳目前的真實痛點？", options: [{ value: "感性派", label: "🟢 憑感覺發文", desc: "多是心情日記，不知道怎麼寫轉換文。" }, { value: "產出慢", label: "🟡 產出速度慢", desc: "追求完美，每產出一篇文都要憋超久。" }, { value: "吸錯人", label: "🟠 吸引錯誤受眾", desc: "來的都是只想免費諮詢的人，無法成交。" }] },
-  { id: "q5", resultLabel: "AI 工具應用", title: "面對 AI 工具與系統化，妳的現況是？", options: [{ value: "工具焦慮", label: "🟢 工具焦慮", desc: "知道重要但不知從哪開始，門檻很高。" }, { value: "盲目跟風", label: "🟡 盲目跟風", desc: "存了一堆指令但產出的內容沒靈魂。" }, { value: "渴望升級", label: "🟠 渴望升級", desc: "需要一套「AI 大腦」幫我省下 80% 時間。" }] }
+  {
+    id: "q1",
+    resultLabel: "變現現況",
+    title: "關於「把熱情變成收入」，目前妳最接近哪個狀態？",
+    options: [
+      {
+        value: "純小白",
+        label: "🟢 還在探索",
+        desc: "有很多興趣與能力，但不知道哪個能變成收入。"
+      },
+      {
+        value: "卡關中",
+        label: "🟡 已經開始，但不穩定",
+        desc: "已在分享、接案或銷售，但收入與詢問都不穩定。"
+      },
+      {
+        value: "缺系統",
+        label: "🟠 有產品或服務，但缺系統",
+        desc: "有東西可以賣，但行銷、內容、成交與後續承接都還很耗力。"
+      }
+    ]
+  },
+  {
+    id: "q2",
+    resultLabel: "定位狀態",
+    title: "當別人問「妳現在在做什麼？」妳的反應最接近哪一種？",
+    options: [
+      {
+        value: "標籤模糊",
+        label: "🟢 講得很廣，別人聽完沒記憶點",
+        desc: "例如只能說：我在做自媒體、身心靈、顧問、服務、創業。"
+      },
+      {
+        value: "技能太散",
+        label: "🟡 會的很多，但不知道怎麼串起來",
+        desc: "每個能力都想保留，但還沒有一條清楚主線。"
+      },
+      {
+        value: "缺差異化",
+        label: "🟠 說得出服務，但不確定差異在哪",
+        desc: "知道自己能提供什麼，但覺得市場上好像很多人也在做。"
+      }
+    ]
+  },
+  {
+    id: "q3",
+    resultLabel: "付費心魔",
+    title: "如果要妳公開報價收費，妳最大的卡點是什麼？",
+    options: [
+      {
+        value: "冒牌者症候群",
+        label: "🟢 覺得自己還不夠好",
+        desc: "怕自己不夠專業、不敢收合理價格，也怕別人質疑。"
+      },
+      {
+        value: "產品難產症",
+        label: "🟡 不知道怎麼包裝成方案",
+        desc: "知道自己能幫人，但不知道怎麼變成清楚可購買的服務。"
+      },
+      {
+        value: "流量焦慮症",
+        label: "🟠 怕發了沒人看、準備好了沒人買",
+        desc: "覺得成交問題來自流量不足，因此一直想先累積更多曝光。"
+      }
+    ]
+  },
+  {
+    id: "q4",
+    resultLabel: "內容痛點",
+    title: "面對社群內容產出，妳目前最真實的痛點是什麼？",
+    options: [
+      {
+        value: "感性派",
+        label: "🟢 多半憑感覺發文",
+        desc: "容易寫成心情、日記或靈感紀錄，但不知道怎麼連到服務。"
+      },
+      {
+        value: "產出慢",
+        label: "🟡 產出速度很慢",
+        desc: "每篇內容都想很多、修很久，最後容易卡住或放棄。"
+      },
+      {
+        value: "吸錯人",
+        label: "🟠 吸引到不對的人",
+        desc: "來互動的人不少，但多是只想免費問問題，難以轉換成付費。"
+      }
+    ]
+  },
+  {
+    id: "q5",
+    resultLabel: "AI 工具應用",
+    title: "面對 AI 工具與系統化，妳的現況比較像哪一種？",
+    options: [
+      {
+        value: "工具焦慮",
+        label: "🟢 知道重要，但不知道從哪開始",
+        desc: "看過很多工具介紹，但實際用起來還是卡。"
+      },
+      {
+        value: "盲目跟風",
+        label: "🟡 存了很多指令，但用不出自己的味道",
+        desc: "AI 可以產出文字，但內容不像妳，也不一定能用來成交。"
+      },
+      {
+        value: "渴望升級",
+        label: "🟠 想建立自己的 AI 工作流",
+        desc: "希望 AI 幫妳省下大量整理、發想、改寫、分平台輸出的時間。"
+      }
+    ]
+  }
 ];
 
 let currentIndex = 0;
 const answers = {};
 let isSubmitting = false;
 
-// DOM 元素
-const screens = { cover: document.getElementById("coverScreen"), question: document.getElementById("questionScreen"), form: document.getElementById("formScreen"), result: document.getElementById("resultScreen") };
-const progress = { wrap: document.getElementById("progressWrap"), fill: document.getElementById("progressFill"), text: document.getElementById("stepText") };
-const uName = document.getElementById("userName");
-const lName = document.getElementById("lineName");
-const sBtn = document.getElementById("submitButton");
+/* -----------------------------
+   DOM
+----------------------------- */
+const screens = {
+  cover: document.getElementById("coverScreen"),
+  question: document.getElementById("questionScreen"),
+  form: document.getElementById("formScreen"),
+  result: document.getElementById("resultScreen")
+};
 
-// 介面控制
-function showScreen(key) {
-  Object.values(screens).forEach(s => s.classList.remove("active"));
-  screens[key].classList.add("active");
-  window.scrollTo({ top: 0, behavior: "smooth" });
+const progress = {
+  wrap: document.getElementById("progressWrap"),
+  fill: document.getElementById("progressFill"),
+  text: document.getElementById("stepText")
+};
+
+const userNameInput = document.getElementById("userName");
+const lineNameInput = document.getElementById("lineName");
+const challengeInput = document.getElementById("mainChallenge");
+const submitButton = document.getElementById("submitButton");
+const formError = document.getElementById("formError");
+
+/* -----------------------------
+   工具函式
+----------------------------- */
+function escapeHTML(str) {
+  return String(str || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
-function renderQuestion() {
-  const q = questions[currentIndex];
-  progress.wrap.classList.add("show");
+function showScreen(key) {
+  Object.values(screens).forEach(screen => screen.classList.remove("active"));
+  screens[key].classList.add("active");
+
+  if (key === "question") {
+    progress.wrap.classList.add("show");
+  } else {
+    progress.wrap.classList.remove("show");
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+function updateProgress() {
   progress.text.textContent = `第 ${currentIndex + 1} 題，共 ${questions.length} 題`;
   progress.fill.style.width = `${((currentIndex + 1) / questions.length) * 100}%`;
-  
+}
+
+function getAnswerSummary() {
+  return questions.map(q => {
+    return `${q.resultLabel}: ${answers[q.id] || "未作答"}`;
+  }).join(" / ");
+}
+
+function getDetailedAnswerSummary() {
+  return questions.map(q => {
+    const selectedValue = answers[q.id];
+    const selectedOption = q.options.find(opt => opt.value === selectedValue);
+    const label = selectedOption ? selectedOption.label.replace(/[🟢🟡🟠]/g, "").trim() : "未作答";
+    return `${q.resultLabel}：${label}`;
+  }).join("\n");
+}
+
+/* -----------------------------
+   題目渲染
+----------------------------- */
+function renderQuestion() {
+  const q = questions[currentIndex];
+  updateProgress();
+
   screens.question.innerHTML = `
-    <h2 class="question-title">${q.title}</h2>
+    <h2 class="question-title">${escapeHTML(q.title)}</h2>
+
     <div class="options">
       ${q.options.map(opt => `
         <label class="option">
-          <input type="radio" name="${q.id}" value="${opt.value}" ${answers[q.id] === opt.value ? "checked" : ""}>
+          <input
+            type="radio"
+            name="${escapeHTML(q.id)}"
+            value="${escapeHTML(opt.value)}"
+            ${answers[q.id] === opt.value ? "checked" : ""}
+          >
           <span class="option-dot"></span>
           <span class="option-content">
-            <span class="option-label">${opt.label}</span>
-            <span class="option-desc">${opt.desc}</span>
+            <span class="option-label">${escapeHTML(opt.label)}</span>
+            <span class="option-desc">${escapeHTML(opt.desc)}</span>
           </span>
         </label>
       `).join("")}
     </div>
+
     <div class="nav">
-      <button class="back-button" onclick="goBack()">‹ 返回</button>
-      <button class="next-button" id="nextBtn" ${answers[q.id] ? "" : "disabled"} onclick="goNext()">
+      <button class="back-button" type="button" onclick="goBack()">‹ 返回</button>
+      <button
+        class="next-button"
+        type="button"
+        id="nextBtn"
+        ${answers[q.id] ? "" : "disabled"}
+        onclick="goNext()"
+      >
         ${currentIndex === questions.length - 1 ? "填寫資料 ›" : "下一題 ›"}
       </button>
     </div>
   `;
-  screens.question.querySelectorAll('input').forEach(i => i.addEventListener('change', (e) => {
-    answers[q.id] = e.target.value;
-    document.getElementById("nextBtn").disabled = false;
-  }));
+
+  screens.question.querySelectorAll("input").forEach(input => {
+    input.addEventListener("change", event => {
+      answers[q.id] = event.target.value;
+      document.getElementById("nextBtn").disabled = false;
+    });
+  });
+
   showScreen("question");
 }
 
-function goNext() { if (currentIndex < questions.length - 1) { currentIndex++; renderQuestion(); } else { showScreen("form"); } }
-function goBack() { if (currentIndex > 0) { currentIndex--; renderQuestion(); } else { progress.wrap.classList.remove("show"); showScreen("cover"); } }
+function goNext() {
+  if (!answers[questions[currentIndex].id]) return;
 
-// 按鈕事件綁定
-[uName, lName].forEach(i => i.addEventListener("input", () => {
-  sBtn.disabled = !(uName.value.trim() && lName.value.trim());
-}));
-document.getElementById("startButton").onclick = renderQuestion;
-document.getElementById("formBackButton").onclick = () => showScreen("question");
-sBtn.onclick = submitData;
+  if (currentIndex < questions.length - 1) {
+    currentIndex++;
+    renderQuestion();
+  } else {
+    showScreen("form");
+  }
+}
 
-// 診斷描述升級
+function goBack() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderQuestion();
+  } else {
+    showScreen("cover");
+  }
+}
+
+/* -----------------------------
+   表單控制
+----------------------------- */
+function validateForm() {
+  const isValid = userNameInput.value.trim() && lineNameInput.value.trim();
+  submitButton.disabled = !isValid || isSubmitting;
+
+  if (isValid) {
+    formError.classList.remove("show");
+  }
+
+  return Boolean(isValid);
+}
+
+[userNameInput, lineNameInput].forEach(input => {
+  input.addEventListener("input", validateForm);
+});
+
+document.getElementById("startButton").addEventListener("click", renderQuestion);
+
+document.getElementById("formBackButton").addEventListener("click", () => {
+  renderQuestion();
+});
+
+/* -----------------------------
+   診斷邏輯：計分制
+----------------------------- */
 function getDiagnosis() {
+  const score = {
+    focus: 0,
+    integration: 0,
+    product: 0,
+    content: 0,
+    ai: 0,
+    system: 0
+  };
+
   const { q1, q2, q3, q4, q5 } = answers;
-  if (q1 === "純小白" || q2 === "標籤模糊") return { 
-    title: "天賦還沒聚焦型", 
-    desc: "妳具備多重潛力，但目前像散落的珠子，市場看不出妳的「核心價值」。如果不先釐清定位，再多的努力也會被稀釋在各種碎化的嘗試中。", 
-    next: "進行天賦盤點，找出妳在市場上「最無可取代」的那句標籤。" 
+
+  // Q1：變現現況
+  if (q1 === "純小白") score.focus += 2;
+  if (q1 === "卡關中") score.system += 2;
+  if (q1 === "缺系統") score.ai += 2;
+
+  // Q2：定位狀態
+  if (q2 === "標籤模糊") score.focus += 3;
+  if (q2 === "技能太散") score.integration += 3;
+  if (q2 === "缺差異化") score.system += 2;
+
+  // Q3：付費心魔
+  if (q3 === "冒牌者症候群") score.focus += 2;
+  if (q3 === "產品難產症") score.product += 3;
+  if (q3 === "流量焦慮症") score.content += 2;
+
+  // Q4：內容痛點
+  if (q4 === "感性派") score.content += 2;
+  if (q4 === "產出慢") score.ai += 2;
+  if (q4 === "吸錯人") score.content += 3;
+
+  // Q5：AI 工具應用
+  if (q5 === "工具焦慮") score.ai += 1;
+  if (q5 === "盲目跟風") score.integration += 1;
+  if (q5 === "渴望升級") score.ai += 3;
+
+  // 加權補強：避免結果太表層
+  if (q2 === "標籤模糊" && q3 === "冒牌者症候群") score.focus += 1;
+  if (q2 === "技能太散" && q5 === "盲目跟風") score.integration += 1;
+  if (q3 === "產品難產症" && q1 !== "純小白") score.product += 1;
+  if (q4 === "吸錯人" && q3 === "流量焦慮症") score.content += 1;
+  if (q1 === "缺系統" && q5 === "渴望升級") score.ai += 1;
+  if (q1 === "卡關中" && q2 === "缺差異化") score.system += 1;
+
+  const priority = ["product", "content", "focus", "integration", "ai", "system"];
+
+  const topType = Object.keys(score).sort((a, b) => {
+    if (score[b] === score[a]) {
+      return priority.indexOf(a) - priority.indexOf(b);
+    }
+    return score[b] - score[a];
+  })[0];
+
+  const diagnosisMap = {
+    focus: {
+      title: "天賦還沒聚焦型",
+      stage: "妳現在處在「能力很多，但市場還看不出主線」的階段。",
+      desc: "妳不是沒有能力，而是能力還沒有被整理成市場聽得懂的一句話。現在最重要的不是多做，而是先找出妳最值得被記住的核心價值。",
+      risk: "如果沒有先聚焦，妳會一直在不同方向之間切換，做了很多，卻很難累積明確的品牌印象。",
+      avoid: "現階段不建議急著開課、做複雜產品，或一直模仿別人的商業模式。",
+      next: "先盤點妳過去最常被需要、最常被稱讚、最容易幫人解決的問題，整理出一句清楚的價值標籤。",
+      ctaAngle: "適合先做天賦盤點、定位釐清與個人品牌主線整理。"
+    },
+    integration: {
+      title: "多重潛能整合型",
+      stage: "妳現在處在「能力豐富，但還缺少整合架構」的階段。",
+      desc: "妳的能力跨度很大，但目前缺少一條能把它們串起來的品牌主線。妳不需要砍掉自己的多元，而是需要重新分層。",
+      risk: "如果沒有整合，妳會一直覺得自己很豐富，但市場只會覺得妳不夠明確。",
+      avoid: "現階段不建議一次推出太多服務，也不適合同時經營太多不同定位。",
+      next: "把妳的能力分成前台引流、核心交付、後台支援三層，找出最適合被放在品牌門面的主能力。",
+      ctaAngle: "適合做能力分類、品牌主軸整合與服務層級設計。"
+    },
+    product: {
+      title: "產品包裝卡關型",
+      stage: "妳現在處在「有能力，但還沒有明確可購買方案」的階段。",
+      desc: "妳已經有能力，也可能已經有人信任妳，但還沒有把能力變成一個明確可購買的方案。",
+      risk: "如果沒有產品化，別人即使想找妳，也不知道怎麼付費、買什麼、期待得到什麼結果。",
+      avoid: "現階段不建議只靠聊天式諮詢或免費分享累積信任，因為會讓妳的價值一直停在模糊狀態。",
+      next: "先設計一個小型付費服務，明確寫出服務對象、解決問題、交付內容與完成後的結果。",
+      ctaAngle: "適合做第一個付費方案、服務包裝與定價設計。"
+    },
+    content: {
+      title: "內容轉換斷裂型",
+      stage: "妳現在處在「有內容，但缺少成交路徑」的階段。",
+      desc: "妳的內容可能有溫度，也能引起共鳴，但還沒有形成清楚的商業路徑。現在的問題不是不能寫，而是內容沒有引導到下一步。",
+      risk: "如果內容只停留在分享感受，容易吸引共鳴，卻很難產生詢問與成交。",
+      avoid: "現階段不建議只追求流量或爆文，因為不精準的流量只會帶來更多免費索取。",
+      next: "調整內容比例，加入觀點文、案例文、問題拆解文與明確行動邀請。",
+      ctaAngle: "適合做內容主線、轉換文架構與社群承接設計。"
+    },
+    ai: {
+      title: "AI 系統升級型",
+      stage: "妳現在處在「有基礎，但太多事仍靠自己硬撐」的階段。",
+      desc: "妳已經有基礎能力，但現在太多事情還靠自己硬撐。妳需要的不是更多工具，而是一套能穩定產出的 AI 工作流。",
+      risk: "如果不建立系統，妳的事業會一直受限於時間與體力，很難穩定放大。",
+      avoid: "現階段不建議盲目收藏更多 AI 指令，因為沒有工作流，工具只會變成新的焦慮來源。",
+      next: "先建立一套固定內容工作流，讓 AI 協助妳完成選題、草稿、改寫、分平台輸出。",
+      ctaAngle: "適合做 AI 內容流程、個人品牌資料庫與自動化產出系統。"
+    },
+    system: {
+      title: "商業化路徑整理型",
+      stage: "妳現在處在「有想法與實作，但還缺少完整銷售閉環」的階段。",
+      desc: "妳已經有想法、能力與一些實作經驗，但目前定位、內容、產品與成交還沒有連成一條線。",
+      risk: "如果沒有銷售閉環，妳會一直做曝光，卻不知道流量進來後要怎麼承接。",
+      avoid: "現階段不建議只增加內容量，因為沒有承接路徑，曝光越多反而越容易消耗。",
+      next: "先畫出妳的第一條銷售路徑：從內容看到妳、對妳產生信任、進一步詢問、最後購買。",
+      ctaAngle: "適合做商業路徑整理、銷售閉環設計與名單承接規劃。"
+    }
   };
-  if (q2 === "技能太散") return { 
-    title: "多重潛能整合型", 
-    desc: "妳的才華跨度大，但目前的混亂感來自於「什麼都想做，卻沒做深」。妳需要一套主線把過去經驗整合，否則會陷入與他人拼單一技能的價格戰。", 
-    next: "建立品牌主線邏輯，將眾多技能區分為「前台引流」與「後台支援」。" 
-  };
-  if (q3 === "產品難產症") return { 
-    title: "產品包裝卡關型", 
-    desc: "妳已具備專業，但卡在無法「產品化」。潛在客戶想找妳卻不知如何付費，這會讓妳的才華無法轉化為穩定的現金流。", 
-    next: "設計一個具備交付感的小型付費服務，讓市場先認識妳的商業價值。" 
-  };
-  if (q4 === "吸錯人" || q3 === "流量焦慮症") return { 
-    title: "內容轉換斷裂型", 
-    desc: "妳的內容可能「有溫度但沒商業感」，或者沒能精準承接流量。這會讓妳忙於發文卻無成交，吸引來的也多是只想索取免費資源的人。", 
-    next: "調整內容比例，增加能展現專業觀點與行動邀請的「變現文」。" 
-  };
-  if (q5 === "渴望升級" || q4 === "產出慢") return { 
-    title: "AI 系統升級型", 
-    desc: "妳已具備基礎，但目前的體力活過重。如果不建立 AI 協作腦，妳的事業規模將受限於妳的時間，無法真正擴展影響力與營收。", 
-    next: "建立專屬的 AI 內容工作流，把 80% 的繁瑣行政與產出交給系統。" 
-  };
-  return { 
-    title: "商業化路徑整理型", 
-    desc: "妳已有想法與能力，但缺的是最後的整合。把定位、內容、產品與成交路徑連成一線，就是妳目前的最高優化優先級。", 
-    next: "釐清妳的第一個銷售閉環，確保流量進來後有對應的承接方案。" 
+
+  return {
+    ...diagnosisMap[topType],
+    score,
+    topType
   };
 }
+
+/* -----------------------------
+   送出與結果
+----------------------------- */
+submitButton.addEventListener("click", submitData);
 
 async function submitData() {
   if (isSubmitting) return;
-  isSubmitting = true;
-  sBtn.disabled = true;
-  sBtn.textContent = "診斷結果產出中...";
 
-  const diag = getDiagnosis();
-  const summary = questions.map(q => `${q.resultLabel}: ${answers[q.id]}`).join(' / ');
+  if (!validateForm()) {
+    formError.classList.add("show");
+    return;
+  }
+
+  isSubmitting = true;
+  submitButton.disabled = true;
+  submitButton.textContent = "診斷結果產出中...";
+
+  const diagnosis = getDiagnosis();
+
   const payload = {
-    name: uName.value.trim(),
-    line: lName.value.trim(),
-    challenge: document.getElementById("mainChallenge").value.trim(),
-    type: diag.title,
-    summary: summary,
-    time: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })
+    name: userNameInput.value.trim(),
+    line: lineNameInput.value.trim(),
+    challenge: challengeInput.value.trim(),
+    type: diagnosis.title,
+    stage: diagnosis.stage,
+    summary: getAnswerSummary(),
+    detailedSummary: getDetailedAnswerSummary(),
+    score: diagnosis.score,
+    time: new Date().toLocaleString("zh-TW", {
+      timeZone: "Asia/Taipei"
+    })
   };
 
-  // 分離傳輸邏輯：不論 fetch 是否成功，都進入顯示結果畫面
-  fetch(WEBHOOK_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) })
-    .catch(e => console.log("Webhook sync failed, but proceeding to results."));
+  // 傳送到 Make webhook。即使同步失敗，也先顯示結果，避免使用者卡住。
+  try {
+    fetch(WEBHOOK_URL, {
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify(payload)
+    });
+  } catch (error) {
+    console.log("Webhook sync failed, but result will still display.", error);
+  }
 
-  renderFinalResult(diag, payload);
-  progress.wrap.classList.remove("show");
+  renderFinalResult(diagnosis, payload);
   showScreen("result");
 }
 
-function renderFinalResult(diag, payload) {
-  const copyText = `【Lynn 天賦商業化診斷結果】\n` +
-                   `姓名：${payload.name}\n` +
-                   `診斷類型：${diag.title}\n` +
-                   `分析：${diag.desc}\n` +
-                   `建議行動：${diag.next}\n` +
-                   `目前卡點：${payload.challenge || '未填寫'}`;
+function renderFinalResult(diagnosis, payload) {
+  const copyText =
+`【Lynn 天賦商業化診斷結果】
+
+姓名：${payload.name}
+LINE 名稱：${payload.line}
+
+診斷類型：${diagnosis.title}
+
+我的現況：
+${diagnosis.stage}
+
+分析：
+${diagnosis.desc}
+
+目前風險：
+${diagnosis.risk}
+
+現階段不建議：
+${diagnosis.avoid}
+
+建議行動：
+${diagnosis.next}
+
+適合釐清方向：
+${diagnosis.ctaAngle}
+
+我的選項紀錄：
+${payload.detailedSummary}
+
+目前卡點：
+${payload.challenge || "未填寫"}`;
 
   document.getElementById("resultBox").innerHTML = `
-    <div style="font-size: 11px; font-weight: 700; background: var(--purple-mid); color: var(--purple-deep); padding: 4px 12px; border-radius: 999px; display: inline-block; margin-bottom: 1rem;">初步診斷報告</div>
-    <div class="type-title">${diag.title}</div>
-    <div style="font-size: 14px; color: var(--purple-dark); line-height: 1.75; margin-bottom: 1rem;">${diag.desc}</div>
-    
-    <button class="copy-btn" id="copyResultBtn">📋 複製診斷結果，回 LINE 貼給 Lynn</button>
-    
-    <div style="border-top: 1px solid var(--purple-border); padding-top: 1rem; margin-top: 1rem;">
-      <div style="font-size: 11px; font-weight: 700; color: var(--purple-dark);">Lynn 建議妳的首要行動：</div>
-      <div style="font-size: 15px; font-weight: 700; color: var(--purple-deep);">${diag.next}</div>
+    <div class="badge">初步診斷報告</div>
+
+    <div class="type-title">${escapeHTML(diagnosis.title)}</div>
+
+    <div class="result-section">
+      <div class="result-label">妳目前的位置</div>
+      <div class="result-text">${escapeHTML(diagnosis.stage)}</div>
     </div>
+
+    <div class="result-section">
+      <div class="result-label">核心分析</div>
+      <div class="result-text">${escapeHTML(diagnosis.desc)}</div>
+    </div>
+
+    <div class="risk-box">
+      <div class="result-label" style="color: var(--danger-text);">如果不處理，容易發生什麼？</div>
+      <div style="font-size: 14px; line-height: 1.75;">${escapeHTML(diagnosis.risk)}</div>
+    </div>
+
+    <div class="result-section">
+      <div class="result-label">現階段先不要急著做</div>
+      <div class="result-text">${escapeHTML(diagnosis.avoid)}</div>
+    </div>
+
+    <div class="result-section">
+      <div class="result-label">Lynn 建議妳的首要行動</div>
+      <div class="result-text" style="font-weight: 800; color: var(--purple-deep);">
+        ${escapeHTML(diagnosis.next)}
+      </div>
+    </div>
+
+    <button class="copy-btn" id="copyResultBtn">
+      📋 複製診斷結果，回 LINE 貼給 Lynn
+    </button>
+
+    <p class="small-note">
+      複製後請點下方 LINE 按鈕，把結果貼給 Lynn。這樣我可以更快看懂妳現在的卡點。
+    </p>
   `;
 
-  document.getElementById("copyResultBtn").onclick = () => {
-    navigator.clipboard.writeText(copyText).then(() => {
-      const b = document.getElementById("copyResultBtn");
-      b.textContent = "✅ 已複製！請回到 LINE 對話框貼上";
-      b.style.background = "#D1FFD1"; b.style.border = "1.5px solid #28a745";
+  document.getElementById("copyResultBtn").addEventListener("click", () => {
+    copyToClipboard(copyText);
+  });
+}
+
+function copyToClipboard(text) {
+  const button = document.getElementById("copyResultBtn");
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => {
+      showCopiedState(button);
+    }).catch(() => {
+      fallbackCopy(text, button);
     });
-  };
+  } else {
+    fallbackCopy(text, button);
+  }
+}
+
+function fallbackCopy(text, button) {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
+  textarea.style.left = "-9999px";
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+
+  try {
+    document.execCommand("copy");
+    showCopiedState(button);
+  } catch (error) {
+    button.textContent = "複製失敗，請手動截圖或選取文字";
+    console.log("Copy failed:", error);
+  }
+
+  document.body.removeChild(textarea);
+}
+
+function showCopiedState(button) {
+  button.textContent = "✅ 已複製！請回到 LINE 對話框貼上";
+  button.style.background = "#D1FFD1";
+  button.style.border = "1.5px solid #28A745";
+  button.style.color = "#246B3A";
 }
 </script>
 </body>
