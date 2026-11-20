@@ -241,6 +241,7 @@ textarea.fallback{width:100%;min-height:150px;font-size:13px;padding:10px;border
 <script>
 const LINE_URL='https://lin.ee/pWa9RGJ';
 const TALK_URL='https://ling814078.github.io/linlin/';
+const CHECK_URL='https://ling814078.github.io/beyou/';
 const MAKE_WEBHOOK='https://hook.us2.make.com/adev6ygml8kkxyul2fs5msx2cxrkyofw';
 const SHEET_ENDPOINT='https://script.google.com/macros/s/AKfycbxWcmJ4PeE2ZxWruT89AvMEJdi5n8xlcozbXDMLdnkTPaFGbigj_mZz2QgYPZs-7JJu/exec';
 function post(url,payload,textPlain){
@@ -455,10 +456,13 @@ function result(){
 
   const cards={
     line:{t:'把結果傳到琳琳的 LINE',p:'複製診斷摘要，貼到 LINE 對話框送出，每週前 10 位回傳的人，琳琳會依結果給一則下一步建議。',b:'複製結果並前往 LINE',u:LINE_URL,copy:true},
-    talk:{t:'預約 90 分鐘卡點整理對談',p:'適合想進一步處理「'+ty.cta+'」的妳，把卡點拆成可以執行的下一步。',b:'了解對談計畫',u:TALK_URL}
+    talk:{t:'預約 60 分鐘一對一探索盤點',p:'適合想進一步處理「'+ty.cta+'」的妳：一起看妳的經驗，找出 2–3 個有證據的優勢線索，再定一個七天行動實驗，會後收到書面報告。',b:'了解一對一探索盤點',u:TALK_URL},
+    check:{t:'先做 3 分鐘《豐盛人生盤點》',p:'從 8 個生活面向看力氣花在哪，再用「優勢導航」把不同階段的經驗放在一起，找出一直重複出現的能力。免費，資料只存在妳的手機。',b:'開始盤點',u:CHECK_URL}
   };
-  const order=st.primary==='line'?['line','talk']:['talk','line'];
-  if(st.primary!=='line')cards.line.t='先回傳結果到 LINE';
+  /* 依類型分流：主線／多線兩型導向盤點與一對一；其餘四型屬經營面，先回 LINE */
+  const explore=ty.key==='focus'||ty.key==='integration';
+  const order=explore?['check','talk','line']:['line'];
+  if(explore)cards.line.t='也可以把結果傳到 LINE';
   const nx=$('r-next');nx.innerHTML='';
   order.forEach((k,i)=>{
     const c=cards[k],el=document.createElement('div');el.className='next-card'+(i===0?' primary':'');
