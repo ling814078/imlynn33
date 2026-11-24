@@ -185,13 +185,13 @@ textarea.fallback{width:100%;min-height:150px;font-size:13px;padding:10px;border
     <div class="field"><label for="uname">妳的稱呼</label><input id="uname" type="text" autocomplete="nickname" placeholder="例如：小安"></div>
     <div class="field"><label for="uline">LINE 顯示名稱</label><input id="uline" type="text" placeholder="跟 LINE 上的名字一致"></div>
     <div class="field"><label for="uemail">Email<em>選填</em></label><input id="uemail" type="email" autocomplete="email" inputmode="email" placeholder="想收到延伸整理或活動資訊可留下"><span class="err" id="emailErr" hidden>Email 格式不正確，請修正或留空。</span></div>
-    <div class="field"><label for="uchal">最近一件想做、但還沒開始的事，卡在哪？<em>選填</em></label><textarea id="uchal" maxlength="300" placeholder="例如：想開第一個小方案，但一直不知道要賣什麼"></textarea></div>
+    <div class="field"><label for="uchal">有沒有一件事，妳一直想做，卻還沒開始？卡在哪裡？<em>選填</em></label><textarea id="uchal" maxlength="300" placeholder="例如：想開一個小課，但每次寫到價格就停下來"></textarea></div>
     <div class="interview">
-      <p class="muted" style="font-size:13px;margin:0">以下選填。琳琳正在訪談 30+ 女性「想做的事卡在哪」，多寫幾句能幫我很多，也會讓給妳的建議更貼近妳。</p>
-      <div class="field"><label>為了這件事，試過哪些方法？<em>可複選</em></label><div class="opts" id="utried"><label><input type="checkbox" value="看書或上課">看書或上課</label><label><input type="checkbox" value="問朋友">問朋友</label><label><input type="checkbox" value="找諮詢或教練">找諮詢或教練</label><label><input type="checkbox" value="加入社群">加入社群</label><label><input type="checkbox" value="用 AI 工具">用 AI 工具</label><label><input type="checkbox" value="還沒試過">還沒試過</label></div></div>
-      <div class="field"><label for="ugoal">如果有人陪妳往前一步，最希望得到什麼結果？<em>選填</em></label><textarea id="ugoal" maxlength="300" placeholder="例如：一個月內把第一個方案開出來"></textarea></div>
-      <label class="tick"><input type="checkbox" id="utalk">願意再跟琳琳約一次聊聊（訪談，不推銷）</label>
-      <label class="tick"><input type="checkbox" id="uevent">BeYou 有交流夜時通知我</label>
+      <p class="muted" style="font-size:13px;margin:0">下面幾題可以跳過。我最近在聽大家聊「想做的事卡在哪」，妳願意多說一點，我回妳的建議也會更貼近妳。</p>
+      <div class="field"><label>這段時間，妳試過哪些方法？<em>可複選</em></label><div class="opts" id="utried"><label><input type="checkbox" value="上網查、看影片">上網查、看影片</label><label><input type="checkbox" value="買課、上課">買課、上課</label><label><input type="checkbox" value="問身邊朋友">問身邊朋友</label><label><input type="checkbox" value="找人諮詢">找人諮詢</label><label><input type="checkbox" value="加入社群">加入社群</label><label><input type="checkbox" value="問 AI">問 AI</label><label><input type="checkbox" value="還沒真的開始試">還沒真的開始試</label></div></div>
+      <div class="field"><label for="ugoal">如果有人陪妳往前走一小步，妳最希望事情變成什麼樣子？<em>選填</em></label><textarea id="ugoal" maxlength="300" placeholder="例如：至少把方案講清楚，收到第一位客人"></textarea></div>
+      <label class="tick"><input type="checkbox" id="utalk">我願意找時間跟琳琳聊聊（不推銷）</label>
+      <label class="tick"><input type="checkbox" id="uevent">之後有主題小聚，通知我一聲</label>
     </div>
     <p class="muted" style="font-size:12px">填寫的稱呼、LINE 名稱與 Email，只用於回覆妳的診斷結果、不具名整理成訪談報告，以及琳琳後續的活動與內容通知；不提供給第三方，可隨時請我刪除。</p>
     <div class="nav">
@@ -449,7 +449,7 @@ function result(){
 
   const name=$('uname').value.trim(),line=$('uline').value.trim(),email=$('uemail').value.trim(),chal=$('uchal').value.trim();
   const tried=[...document.querySelectorAll('#utried input:checked')].map(x=>x.value).join('、'),goal=$('ugoal').value.trim(),talk=$('utalk').checked?'是':'',event=$('uevent').checked?'是':'';
-  const extra=(tried||goal||talk||event)?'［訪談］試過：'+(tried||'未填')+'｜希望結果：'+(goal||'未填')+'｜願意再聊：'+(talk||'否')+'｜交流夜通知：'+(event||'否'):'';
+  const extra=(tried||goal||talk||event)?'［訪談］試過：'+(tried||'未填')+'｜希望結果：'+(goal||'未填')+'｜願意再聊：'+(talk||'否')+'｜主題小聚通知：'+(event||'否'):'';
   summary=['【琳琳｜一人工作卡點診斷結果】','稱呼：'+name+'／LINE：'+line,
     '類型：'+ty.title,'階段：'+st.k+'（'+sum+'/15）','頭號卡點：'+Q[fi].dim+'－'+fo.l,'7 天行動：'+fo.a,
     '選項紀錄：',...Q.map((q,i)=>'・'+q.dim+'：'+labels[i]),'想做但還沒開始的事：'+(chal||'未填寫'),...(extra?[extra]:[]),'診斷編號：'+serial+'（'+ds+'）'].join('\n');
